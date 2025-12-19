@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
-const Redis = require('ioredis');
+const { Redis } = require('@upstash/redis'); // ← Thay đổi chính: dùng Upstash
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,16 +9,18 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Kết nối Redis (dùng biến môi trường để tương thích Vercel + local)
-const redis = new Redis(process.env.VOXEL_REDIS_URL || process.env.voxel_REDIS_URL);
+// Khởi tạo Upstash Redis – siêu ổn định trên Vercel
+const redis = new Redis({
+  url: process.env.VOXEL_REDIS_URL || process.env.UPSTASH_REDIS_REST_URL, // Tương thích biến cũ nếu có
+  token: process.env.VOXEL_REDIS_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
-redis.on('connect', () => console.log('Redis kết nối thành công!'));
-redis.on('error', (err) => console.error('Lỗi Redis:', err.message));
+// Không cần .on('connect') / .on('error') – Upstash tự xử lý hết
 
-// Admin password (dùng cho client-side login, server không check)
+// Admin password (client-side login)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "voxeladmin2025";
 
-// Phục vụ folder admin (login + dashboard)
+// Phục vụ folder admin
 app.use('/admin', (req, res, next) => {
   if (req.path === '/login.html' || req.path === '/') return next();
   next();
@@ -42,15 +44,11 @@ app.post('/api/increment', async (req, res) => {
     const { version } = req.body;
     if (!version) return res.status(400).json({ success: false });
 
-    // Tăng tổng lượt tải
     const total = await redis.incr('download:total');
-
-    // Tăng theo phiên bản
     const versionKey = `download:version:${version}`;
     await redis.incr(versionKey);
-    await redis.sadd('download:versions', version); // Lưu danh sách phiên bản
+    await redis.sadd('download:versions', version);
 
-    // Tăng theo ngày
     const today = new Date().toISOString().split('T')[0];
     await redis.incr(`download:day:${today}`);
 
@@ -66,7 +64,6 @@ app.get('/api/admin/stats', async (req, res) => {
   try {
     const total = parseInt(await redis.get('download:total') || '0');
 
-    // Lấy danh sách phiên bản và lượt tải của chúng
     const versionsSet = await redis.smembers('download:versions');
     const versions = {};
     for (const v of versionsSet) {
@@ -74,7 +71,6 @@ app.get('/api/admin/stats', async (req, res) => {
       versions[v] = parseInt(count);
     }
 
-    // Lấy dữ liệu theo ngày (30 ngày gần nhất)
     const daily = {};
     const today = new Date();
     for (let i = 0; i < 30; i++) {
@@ -111,19 +107,14 @@ app.get('/api/releases', async (req, res) => {
   }
 });
 
-// === API: VirusTotal Links (dùng Redis List) ===
+// === API: VirusTotal Links ===
 app.get('/api/virustotal', async (req, res) => {
   try {
     const rawLinks = await redis.lrange('virustotal:links', 0, -1);
     const links = rawLinks.map(item => {
-      try {
-        return JSON.parse(item);
-      } catch {
-        return null;
-      }
+      try { return JSON.parse(item); } catch { return null; }
     }).filter(Boolean);
 
-    // Sắp xếp theo thời gian mới nhất
     links.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     res.json(links);
@@ -157,11 +148,9 @@ app.delete('/api/admin/virustotal/:index', async (req, res) => {
     const index = parseInt(req.params.index);
     if (isNaN(index) || index < 0) return res.status(400).json({ error: "Index không hợp lệ" });
 
-    // Lấy toàn bộ list
     const links = await redis.lrange('virustotal:links', 0, -1);
     if (index >= links.length) return res.status(400).json({ error: "Không tìm thấy" });
 
-    // Xóa phần tử tại index
     await redis.lrem('virustotal:links', 0, links[index]);
 
     res.json({ success: true });
@@ -179,5 +168,5 @@ app.use((req, res) => res.status(404).send('<h2>Không tìm thấy trang!</h2>')
 
 app.listen(PORT, () => {
   console.log(`Server chạy tại http://localhost:${PORT}`);
-  console.log('Đang sử dụng Redis (ioredis) để lưu trữ toàn bộ dữ liệu');
+  console.log('Đang sử dụng Upstash Redis (@upstash/redis) – Ổn định 100% trên Vercel');
 });
