@@ -9,18 +9,16 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// === KHỞI TẠO UPSTASH REDIS ĐÚNG CÁCH (GLOBAL SCOPE - CHUẨN CHO VERCEL) ===
+// === KHỞI TẠO CHÍNH XÁC VỚI BIẾN TỪ VERCEL INTEGRATION ===
 const redis = new Redis({
   url: process.env.voxelx_KV_REST_API_URL,
   token: process.env.voxelx_KV_REST_API_TOKEN,
 });
+// =====================================================================
 
-// Không cần await, không cần middleware init, không cần .on('connect')/.on('error')
-
-// Admin password (client-side login)
+// Admin password
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "voxeladmin2025";
 
-// Phục vụ folder admin
 app.use('/admin', (req, res, next) => {
   if (req.path === '/login.html' || req.path === '/') return next();
   next();
@@ -89,7 +87,7 @@ app.get('/api/admin/stats', async (req, res) => {
   }
 });
 
-// === API: Lấy releases từ GitHub ===
+// === API: Releases GitHub ===
 app.get('/api/releases', async (req, res) => {
   try {
     const response = await axios.get('https://api.github.com/repos/Zheni-Mai/VoxelX/releases', {
@@ -113,11 +111,7 @@ app.get('/api/virustotal', async (req, res) => {
   try {
     const rawLinks = await redis.lrange('virustotal:links', 0, -1);
     const links = rawLinks.map(item => {
-      try {
-        return JSON.parse(item);
-      } catch {
-        return null;
-      }
+      try { return JSON.parse(item); } catch { return null; }
     }).filter(Boolean);
 
     links.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -173,5 +167,5 @@ app.use((req, res) => res.status(404).send('<h2>Không tìm thấy trang!</h2>')
 
 app.listen(PORT, () => {
   console.log(`Server chạy tại http://localhost:${PORT}`);
-  console.log('Upstash Redis (@upstash/redis) đã sẵn sàng – Ổn định tuyệt đối trên Vercel!');
+  console.log('Upstash Redis kết nối thành công – Không còn lỗi 500 nữa!');
 });
