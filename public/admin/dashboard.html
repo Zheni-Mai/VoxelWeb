@@ -15,14 +15,11 @@
       --text-secondary: #aaa;
       --success: #4ade80;
       --danger: #ff6b6b;
-      --primary-purple: #a855f7;
-      --purple-light: #c084fc;
     }
 
     body {
       background: var(--admin-bg);
       min-height: 100vh;
-      font-family: 'Inter', sans-serif;
     }
 
     .admin-header {
@@ -43,7 +40,7 @@
       align-items: center;
       gap: 0.75rem;
       color: var(--primary-purple);
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
     }
 
@@ -51,20 +48,16 @@
       background: var(--danger);
       color: white;
       border: none;
-      padding: 0.7rem 1.4rem;
-      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.9rem;
       transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
     .logout-btn:hover {
       background: #ff4444;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(255, 68, 68, 0.3);
+      transform: translateY(-2px);
     }
 
     .admin-container {
@@ -75,203 +68,162 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .card {
       background: var(--card-bg);
-      border-radius: 18px;
-      padding: 2rem;
+      border-radius: 16px;
+      padding: 1.8rem;
       border: 1px solid var(--border-color);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 40px rgba(168, 85, 247, 0.2);
+      transform: translateY(-5px);
     }
 
     .card h2 {
       color: var(--primary-purple);
-      margin-bottom: 1.2rem;
-      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
     }
 
     .total-downloads {
-      font-size: 2.8rem;
-      font-weight: 800;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: #fff;
-      margin: 1.2rem 0;
-      text-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+      margin: 1rem 0;
     }
 
     .chart-container {
       position: relative;
-      height: 320px;
-      margin-top: 1.5rem;
+      height: 300px;
+      margin-top: 1rem;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1.2rem;
+      margin-top: 1rem;
     }
 
     th {
       background: #222;
       text-align: left;
-      padding: 1.2rem;
+      padding: 1rem;
       font-weight: 600;
       color: var(--primary-purple);
-      font-size: 1.1rem;
     }
 
     td {
-      padding: 1.2rem;
+      padding: 1rem;
       border-bottom: 1px solid #333;
     }
 
     tr:hover {
-      background: rgba(168, 85, 247, 0.15);
+      background: rgba(168, 85, 247, 0.1);
     }
 
     .form-section {
       background: var(--card-bg);
-      padding: 2.5rem;
-      border-radius: 18px;
+      padding: 2rem;
+      border-radius: 16px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.8rem;
-      margin-bottom: 2rem;
     }
 
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
     }
 
     label {
       display: block;
-      margin-bottom: 0.6rem;
-      color: #e0e0e0;
-      font-weight: 600;
-      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-light);
+      font-weight: 500;
     }
 
     input {
       width: 100%;
-      padding: 1rem;
+      padding: 0.9rem;
       background: #111;
       border: 1px solid #444;
-      border-radius: 12px;
+      border-radius: 10px;
       color: white;
       font-size: 1rem;
-      transition: all 0.3s;
     }
 
     input:focus {
       outline: none;
       border-color: var(--primary-purple);
-      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
     }
 
     .btn-add {
       background: var(--primary-purple);
       color: white;
       border: none;
-      padding: 1rem 2rem;
-      border-radius: 12px;
+      padding: 0.9rem 1.5rem;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-size: 1rem;
       width: 100%;
       transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
     }
 
     .btn-add:hover {
       background: var(--purple-light);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+      transform: translateY(-2px);
     }
 
     .vt-list {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
 
     .vt-item {
       background: #222;
-      padding: 1.4rem;
-      border-radius: 14px;
-      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 1.2rem;
-      border: 1px solid #333;
-      transition: all 0.3s;
-    }
-
-    .vt-item:hover {
-      border-color: var(--primary-purple);
-      box-shadow: 0 5px 15px rgba(168, 85, 247, 0.1);
+      gap: 1rem;
     }
 
     .vt-info strong {
       color: var(--primary-purple);
-      font-size: 1.2rem;
     }
 
     .vt-info a {
       color: #4ade80;
       word-break: break-all;
-      font-size: 0.95rem;
-      text-decoration: underline;
-    }
-
-    .vt-info a:hover {
-      color: #22c55e;
+      font-size: 0.9rem;
     }
 
     .btn-delete {
       background: var(--danger);
       color: white;
       border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 10px;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.3s;
+      font-size: 0.85rem;
     }
 
     .btn-delete:hover {
       background: #ff4444;
-      transform: translateY(-2px);
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 3rem;
-      color: #aaa;
-      font-size: 1.1rem;
     }
 
     @media (max-width: 768px) {
-      .stats-grid, .form-grid {
+      .stats-grid {
         grid-template-columns: 1fr;
       }
       .vt-item {
@@ -280,12 +232,6 @@
       }
       .btn-delete {
         align-self: flex-end;
-      }
-      .admin-header {
-        padding: 1rem;
-      }
-      .admin-header .logo {
-        font-size: 1.3rem;
       }
     }
   </style>
@@ -305,10 +251,10 @@
 
   <div class="admin-container">
 
-    <!-- Thống kê lượt tải -->
+    <!-- Tổng lượt tải + Biểu đồ -->
     <div class="stats-grid">
       <div class="card">
-        <h2><i class="fas fa-download"></i> Tổng lượt tải</h2>
+        <h2><i class="fas fa-download"></i> Thống kê lượt tải</h2>
         <div class="total-downloads" id="total-downloads">Đang tải...</div>
         <div class="chart-container">
           <canvas id="dailyChart"></canvas>
@@ -325,13 +271,13 @@
     <div class="form-section">
       <h2><i class="fas fa-shield-virus"></i> Quản lý link VirusTotal</h2>
       
-      <div class="form-grid">
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
         <div class="form-group">
-          <label for="vt-version">Phiên bản</label>
+          <label>Phiên bản</label>
           <input type="text" id="vt-version" placeholder="Ví dụ: 1.0.0" />
         </div>
         <div class="form-group">
-          <label for="vt-url">Link VirusTotal</label>
+          <label>Link VirusTotal</label>
           <input type="url" id="vt-url" placeholder="https://www.virustotal.com/gui/file/..." />
         </div>
       </div>
@@ -340,40 +286,39 @@
         <i class="fas fa-plus"></i> Thêm link mới
       </button>
 
-      <h3 style="margin: 2.5rem 0 1.5rem; color: var(--primary-purple);">
-        <i class="fas fa-list-ul"></i> Danh sách link hiện tại
+      <h3 style="margin: 2rem 0 1rem; color: var(--primary-purple);">
+        <i class="fas fa-list"></i> Danh sách link hiện tại
       </h3>
       <div id="vt-list" class="vt-list">
-        <div class="empty-state">Đang tải danh sách...</div>
+        <!-- Danh sách sẽ được load bằng JS -->
       </div>
     </div>
 
   </div>
 
   <script>
-    // Kiểm tra đăng nhập - sửa đúng đường dẫn
+    // Kiểm tra đăng nhập
     if (!localStorage.getItem('admin_auth')) {
-      window.location.href = '/admin/login.html';
+      window.location.href = '/public/admin/login.html';
     }
 
     function logout() {
       if (confirm('Bạn có chắc muốn đăng xuất?')) {
         localStorage.removeItem('admin_auth');
-        window.location.href = '/admin/login.html';
+        window.location.href = '/public/admin/login.html';
       }
     }
 
     async function loadStats() {
       try {
         const res = await fetch('/api/admin/stats');
-        if (!res.ok) throw new Error('Lỗi server');
         const data = await res.json();
 
         document.getElementById('total-downloads').textContent = data.total.toLocaleString('vi-VN');
 
         // Biểu đồ lượt tải theo ngày
         const dates = Object.keys(data.daily).sort();
-        const values = dates.map(d => data.daily[d] || 0);
+        const values = dates.map(d => data.daily[d]);
 
         new Chart(document.getElementById('dailyChart'), {
           type: 'line',
@@ -386,8 +331,7 @@
               backgroundColor: 'rgba(168, 85, 247, 0.15)',
               borderWidth: 3,
               pointBackgroundColor: '#a855f7',
-              pointRadius: 6,
-              pointHoverRadius: 8,
+              pointRadius: 5,
               tension: 0.4,
               fill: true
             }]
@@ -396,42 +340,37 @@
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { labels: { color: '#ddd', font: { size: 14 } } }
+              legend: { labels: { color: '#ccc' } }
             },
             scales: {
-              x: { ticks: { color: '#bbb' }, grid: { color: '#333' } },
-              y: { ticks: { color: '#bbb' }, grid: { color: '#333' }, beginAtZero: true }
+              x: { ticks: { color: '#aaa' }, grid: { color: '#333' } },
+              y: { ticks: { color: '#aaa' }, grid: { color: '#333' }, beginAtZero: true }
             }
           }
         });
 
-        // Bảng lượt tải theo phiên bản
+        // Bảng phiên bản
         const statsDiv = document.getElementById('version-stats');
         if (Object.keys(data.versions).length === 0) {
-          statsDiv.innerHTML = '<div class="empty-state">Chưa có dữ liệu lượt tải theo phiên bản.</div>';
+          statsDiv.innerHTML = '<p style="color:#aaa; text-align:center; padding:2rem;">Chưa có dữ liệu lượt tải theo phiên bản.</p>';
         } else {
           const sorted = Object.entries(data.versions)
             .sort((a, b) => b[1] - a[1]);
 
           statsDiv.innerHTML = `
             <table>
-              <thead>
-                <tr><th>Phiên bản</th><th>Lượt tải</th></tr>
-              </thead>
-              <tbody>
-                ${sorted.map(([v, c]) => `
-                  <tr>
-                    <td><strong style="color:#a855f7;">${v}</strong></td>
-                    <td><strong style="color:#fff;">${c.toLocaleString('vi-VN')}</strong></td>
-                  </tr>
-                `).join('')}
-              </tbody>
+              <tr><th>Phiên bản</th><th>Lượt tải</th></tr>
+              ${sorted.map(([v, c]) => `
+                <tr>
+                  <td><strong>${v}</strong></td>
+                  <td><strong style="color:#a855f7;">${c.toLocaleString('vi-VN')}</strong></td>
+                </tr>
+              `).join('')}
             </table>
           `;
         }
       } catch (err) {
-        console.error(err);
-        document.getElementById('version-stats').innerHTML = '<div class="empty-state" style="color:#ff6b6b;">Lỗi tải dữ liệu thống kê</div>';
+        document.getElementById('version-stats').innerHTML = '<p style="color:#ff6b6b;">Lỗi tải dữ liệu</p>';
       }
     }
 
@@ -442,27 +381,26 @@
         const list = document.getElementById('vt-list');
 
         if (links.length === 0) {
-          list.innerHTML = '<div class="empty-state">Chưa có link VirusTotal nào được thêm.</div>';
+          list.innerHTML = '<p style="color:#aaa; text-align:center; padding:2rem;">Chưa có link VirusTotal nào.</p>';
           return;
         }
 
-        list.innerHTML = links.map(link => `
+        list.innerHTML = links.map((link, i) => `
           <div class="vt-item">
             <div class="vt-info">
               <strong>${link.version}</strong>
               <br>
-              <a href="${link.url}" target="_blank" rel="noopener">${link.url}</a>
+              <a href="${link.url}" target="_blank">${link.url}</a>
               <br>
-              <small style="color:#888;">Thêm lúc: ${new Date(link.createdAt).toLocaleString('vi-VN')}</small>
+              <small style="color:#666;">Thêm lúc: ${new Date(link.date).toLocaleString('vi-VN')}</small>
             </div>
-            <button class="btn-delete" onclick="deleteVT(${link.id})">
+            <button class="btn-delete" onclick="deleteVT(${i})">
               <i class="fas fa-trash"></i> Xóa
             </button>
           </div>
         `).join('');
       } catch (err) {
-        console.error(err);
-        document.getElementById('vt-list').innerHTML = '<div class="empty-state" style="color:#ff6b6b;">Lỗi tải danh sách VirusTotal</div>';
+        document.getElementById('vt-list').innerHTML = '<p style="color:#ff6b6b;">Lỗi tải danh sách</p>';
       }
     }
 
@@ -471,46 +409,34 @@
       const url = document.getElementById('vt-url').value.trim();
 
       if (!version || !url) {
-        alert('Vui lòng nhập đầy đủ phiên bản và link VirusTotal!');
+        alert('Vui lòng nhập đầy đủ thông tin!');
         return;
       }
 
       try {
-        const res = await fetch('/api/admin/virustotal', {
+        await fetch('/api/admin/virustotal', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ version, url })
         });
 
-        if (res.ok) {
-          document.getElementById('vt-version').value = '';
-          document.getElementById('vt-url').value = '';
-          loadVirusTotal();
-          alert('Đã thêm link VirusTotal thành công!');
-        } else {
-          alert('Lỗi khi thêm link');
-        }
+        document.getElementById('vt-version').value = '';
+        document.getElementById('vt-url').value = '';
+        loadVirusTotal();
+        alert('Đã thêm link thành công!');
       } catch (err) {
-        alert('Lỗi kết nối server');
+        alert('Lỗi khi thêm link');
       }
     }
 
-    async function deleteVT(id) {
-      if (!confirm('Bạn có chắc chắn muốn xóa link VirusTotal này?')) return;
+    async function deleteVT(index) {
+      if (!confirm('Bạn có chắc muốn xóa link này?')) return;
 
       try {
-        const res = await fetch(`/api/admin/virustotal/${id}`, {
-          method: 'DELETE'
-        });
-
-        if (res.ok) {
-          loadVirusTotal();
-          alert('Đã xóa thành công!');
-        } else {
-          alert('Lỗi khi xóa');
-        }
+        await fetch(`/api/admin/virustotal/${index}`, { method: 'DELETE' });
+        loadVirusTotal();
       } catch (err) {
-        alert('Lỗi kết nối server');
+        alert('Lỗi khi xóa');
       }
     }
 

@@ -1,8 +1,0 @@
-# .gitignore
-node_modules/
-.env
-.env.local
-.prisma/client
-prisma/dev.db
-*.log
-.DS_Store
