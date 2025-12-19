@@ -16,9 +16,6 @@ const redis = new Redis({
 });
 // =====================================================================
 
-// Admin password
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "voxeladmin2025";
-
 app.use('/admin', (req, res, next) => {
   if (req.path === '/login.html' || req.path === '/') return next();
   next();
