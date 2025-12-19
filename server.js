@@ -11,8 +11,8 @@ app.use(express.json());
 
 // Khởi tạo Upstash Redis – siêu ổn định trên Vercel
 const redis = new Redis({
-  url: process.env.VOXEL_REDIS_URL || process.env.UPSTASH_REDIS_REST_URL, // Tương thích biến cũ nếu có
-  token: process.env.VOXEL_REDIS_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
+  url: process.env.voxelx_KV_REST_API_URL,
+  token: process.env.voxelx_KV_REST_API_TOKEN,
 });
 
 // Không cần .on('connect') / .on('error') – Upstash tự xử lý hết
