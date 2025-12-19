@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
-const { Redis } = require('@upstash/redis'); // ← Thay đổi chính: dùng Upstash
+const { Redis } = require('@upstash/redis');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,13 +9,13 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Khởi tạo Upstash Redis – siêu ổn định trên Vercel
+// === KHỞI TẠO UPSTASH REDIS ĐÚNG CÁCH (GLOBAL SCOPE - CHUẨN CHO VERCEL) ===
 const redis = new Redis({
   url: process.env.voxelx_KV_REST_API_URL,
   token: process.env.voxelx_KV_REST_API_TOKEN,
 });
 
-// Không cần .on('connect') / .on('error') – Upstash tự xử lý hết
+// Không cần await, không cần middleware init, không cần .on('connect')/.on('error')
 
 // Admin password (client-side login)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "voxeladmin2025";
@@ -33,7 +33,7 @@ app.get('/api/get-downloads', async (req, res) => {
     const total = await redis.get('download:total') || '0';
     res.json({ count: parseInt(total) });
   } catch (err) {
-    console.error('GET downloads error:', err);
+    console.error('GET downloads error:', err.message);
     res.status(500).json({ count: 0 });
   }
 });
@@ -45,6 +45,7 @@ app.post('/api/increment', async (req, res) => {
     if (!version) return res.status(400).json({ success: false });
 
     const total = await redis.incr('download:total');
+
     const versionKey = `download:version:${version}`;
     await redis.incr(versionKey);
     await redis.sadd('download:versions', version);
@@ -54,7 +55,7 @@ app.post('/api/increment', async (req, res) => {
 
     res.json({ success: true, total });
   } catch (err) {
-    console.error('Increment error:', err);
+    console.error('Increment error:', err.message);
     res.status(500).json({ success: false });
   }
 });
@@ -83,7 +84,7 @@ app.get('/api/admin/stats', async (req, res) => {
 
     res.json({ total, versions, daily });
   } catch (err) {
-    console.error('Stats error:', err);
+    console.error('Stats error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -112,14 +113,18 @@ app.get('/api/virustotal', async (req, res) => {
   try {
     const rawLinks = await redis.lrange('virustotal:links', 0, -1);
     const links = rawLinks.map(item => {
-      try { return JSON.parse(item); } catch { return null; }
+      try {
+        return JSON.parse(item);
+      } catch {
+        return null;
+      }
     }).filter(Boolean);
 
     links.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     res.json(links);
   } catch (err) {
-    console.error('VT get error:', err);
+    console.error('VT get error:', err.message);
     res.json([]);
   }
 });
@@ -138,7 +143,7 @@ app.post('/api/admin/virustotal', async (req, res) => {
     await redis.rpush('virustotal:links', item);
     res.json({ success: true });
   } catch (err) {
-    console.error('VT add error:', err);
+    console.error('VT add error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -155,7 +160,7 @@ app.delete('/api/admin/virustotal/:index', async (req, res) => {
 
     res.json({ success: true });
   } catch (err) {
-    console.error('VT delete error:', err);
+    console.error('VT delete error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -168,5 +173,5 @@ app.use((req, res) => res.status(404).send('<h2>Không tìm thấy trang!</h2>')
 
 app.listen(PORT, () => {
   console.log(`Server chạy tại http://localhost:${PORT}`);
-  console.log('Đang sử dụng Upstash Redis (@upstash/redis) – Ổn định 100% trên Vercel');
+  console.log('Upstash Redis (@upstash/redis) đã sẵn sàng – Ổn định tuyệt đối trên Vercel!');
 });
