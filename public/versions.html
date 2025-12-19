@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phiên bản - Voxel Launcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="version.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+            <img src="Assets/Logos/serve_logor.png" alt="Voxel Launcher Logo" class="logo-img">
+            <h1 class="logo-text">Voxel Launcher</h1>
+            </div>
+            <button class="hamburger" aria-label="Mở menu">
+            <span></span>
+            <span></span>
+            <span></span>
+            </button>
+            <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="#download" class="nav-link">Download</a></li>
+            <li><a href="virustotal.html" class="nav-link">Virustotal</a></li>
+            <li><a href="versions.html" class="nav-link">Version</a></li>
+            <li><a href="#wiki" class="nav-link">Wiki</a></li>
+            <li><a href="#issues" class="nav-link">Issues</a></li>
+            </ul>
+        </div>
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+            <div class="logo-container">
+                <img src="Assets/Logos/serve_logor.png" alt="Voxel Launcher Logo" class="logo-img">
+                <h3 class="logo-text">Voxel Launcher</h3>
+            </div>
+            <button class="close-btn" aria-label="Đóng menu">×</button>
+            </div>
+            <ul class="mobile-nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="#download" class="nav-link">Download</a></li>
+            <li><a href="virustotal.html" class="nav-link">Virustotal</a></li>
+            <li><a href="versions.html" class="nav-link">Version</a></li>
+            <li><a href="#wiki" class="nav-link">Wiki</a></li>
+            <li><a href="#issues" class="nav-link">Issues</a></li>
+            </ul>
+        </div>
+    </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2 class="section-title">Tất cả phiên bản</h2>
+
+    <!-- Search -->
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Tìm kiếm phiên bản (ví dụ: v1.0.0)" id="searchInput">
+    </div>
+
+    <!-- Releases Table -->
+    <div id="releases-container">
+      <div class="loading">Đang tải danh sách phiên bản...</div>
+    </div>
+  </div>
+
+  <!-- Modal Changelog -->
+  <div id="changelog-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Changelog</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="changelog-body" id="changelog-body"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <h3 class="logo">Voxel Launcher</h3>
+        <p>© 2025 Voxel Launcher. Tất cả quyền được bảo lưu.</p>
+        <p>Gmail: <a href="mailto:hotro247.a@gmail.com">hotro247.a@gmail.com</a></p>
+        <p>Địa chỉ: Tòa nhà FCC Thái Nguyên,64 Đường Hoàng Văn Thụ, Hàng Văn Thụ, Thành phố Thái Nguyên, Thái Nguyên, Việt Nam</p>
+      </div>
+      <div class="footer-links">
+        <h4>Liên kết</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#download">Download</a></li>
+          <li><a href="https://github.com/Zheni-Mai/VoxelX/wiki">Wiki</a></li>
+          <li><a href="https://github.com/Zheni-Mai/VoxelX/issues">Issues</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h4>Liên hệ</h4>
+            <div class="social-icons">
+                <a href="https://github.com/Zheni-Mai/VoxelX/issues" target="_blank" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+                </a>
+                <a href="https://join.foxstudio.site" target="_blank" aria-label="Discord">
+                <i class="fab fa-discord"></i>
+                </a>
+                <a href="mailto:contact@voxellauncher.com" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+      </div>
+    </div>
+   
+  </footer>
+
+  <script src="version.js"></script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - Voxel Launcher</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --admin-bg: #0a0a0a;
+      --card-bg: #1a1a1a;
+      --border-color: #333;
+      --text-secondary: #aaa;
+      --success: #4ade80;
+      --danger: #ff6b6b;
+      --primary-purple: #a855f7;
+      --purple-light: #c084fc;
+    }
+
+    body {
+      background: var(--admin-bg);
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .admin-header {
+      background: rgba(15, 15, 15, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-header .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--primary-purple);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .logout-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logout-btn:hover {
+      background: #ff4444;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(255, 68, 68, 0.3);
+    }
+
+    .admin-container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(168, 85, 247, 0.2);
+    }
+
+    .card h2 {
+      color: var(--primary-purple);
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .total-downloads {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 1.2rem 0;
+      text-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 320px;
+      margin-top: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.2rem;
+    }
+
+    th {
+      background: #222;
+      text-align: left;
+      padding: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-purple);
+      font-size: 1.1rem;
+    }
+
+    td {
+      padding: 1.2rem;
+      border-bottom: 1px solid #333;
+    }
+
+    tr:hover {
+      background: rgba(168, 85, 247, 0.15);
+    }
+
+    .form-section {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 18px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.6rem;
+      color: #e0e0e0;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 1rem;
+      background: #111;
+      border: 1px solid #444;
+      border-radius: 12px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary-purple);
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.25);
+    }
+
+    .btn-add {
+      background: var(--primary-purple);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-add:hover {
+      background: var(--purple-light);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+    }
+
+    .vt-list {
+      margin-top: 2rem;
+    }
+
+    .vt-item {
+      background: #222;
+      padding: 1.4rem;
+      border-radius: 14px;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      border: 1px solid #333;
+      transition: all 0.3s;
+    }
+
+    .vt-item:hover {
+      border-color: var(--primary-purple);
+      box-shadow: 0 5px 15px rgba(168, 85, 247, 0.1);
+    }
+
+    .vt-info strong {
+      color: var(--primary-purple);
+      font-size: 1.2rem;
+    }
+
+    .vt-info a {
+      color: #4ade80;
+      word-break: break-all;
+      font-size: 0.95rem;
+      text-decoration: underline;
+    }
+
+    .vt-info a:hover {
+      color: #22c55e;
+    }
+
+    .btn-delete {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .btn-delete:hover {
+      background: #ff4444;
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #aaa;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid, .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .vt-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn-delete {
+        align-self: flex-end;
+      }
+      .admin-header {
+        padding: 1rem;
+      }
+      .admin-header .logo {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="admin-header">
+    <div class="logo">
+      <i class="fas fa-cube"></i>
+      Voxel Admin
+    </div>
+    <button class="logout-btn" onclick="logout()">
+      <i class="fas fa-sign-out-alt"></i> Đăng xuất
+    </button>
+  </header>
+
+  <div class="admin-container">
+
+    <!-- Thống kê lượt tải -->
+    <div class="stats-grid">
+      <div class="card">
+        <h2><i class="fas fa-download"></i> Tổng lượt tải</h2>
+        <div class="total-downloads" id="total-downloads">Đang tải...</div>
+        <div class="chart-container">
+          <canvas id="dailyChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-code-branch"></i> Lượt tải theo phiên bản</h2>
+        <div id="version-stats">Đang tải dữ liệu...</div>
+      </div>
+    </div>
+
+    <!-- Quản lý VirusTotal -->
+    <div class="form-section">
+      <h2><i class="fas fa-shield-virus"></i> Quản lý link VirusTotal</h2>
+      
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="vt-version">Phiên bản</label>
+          <input type="text" id="vt-version" placeholder="Ví dụ: 1.0.0" />
+        </div>
+        <div class="form-group">
+          <label for="vt-url">Link VirusTotal</label>
+          <input type="url" id="vt-url" placeholder="https://www.virustotal.com/gui/file/..." />
+        </div>
+      </div>
+
+      <button class="btn-add" onclick="addVirusTotal()">
+        <i class="fas fa-plus"></i> Thêm link mới
+      </button>
+
+      <h3 style="margin: 2.5rem 0 1.5rem; color: var(--primary-purple);">
+        <i class="fas fa-list-ul"></i> Danh sách link hiện tại
+      </h3>
+      <div id="vt-list" class="vt-list">
+        <div class="empty-state">Đang tải danh sách...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Kiểm tra đăng nhập - sửa đúng đường dẫn
+    if (!localStorage.getItem('admin_auth')) {
+      window.location.href = '/admin/login.html';
+    }
+
+    function logout() {
+      if (confirm('Bạn có chắc muốn đăng xuất?')) {
+        localStorage.removeItem('admin_auth');
+        window.location.href = '/admin/login.html';
+      }
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/admin/stats');
+        if (!res.ok) throw new Error('Lỗi server');
+        const data = await res.json();
+
+        document.getElementById('total-downloads').textContent = data.total.toLocaleString('vi-VN');
+
+        // Biểu đồ lượt tải theo ngày
+        const dates = Object.keys(data.daily).sort();
+        const values = dates.map(d => data.daily[d] || 0);
+
+        new Chart(document.getElementById('dailyChart'), {
+          type: 'line',
+          data: {
+            labels: dates.map(d => new Date(d).toLocaleDateString('vi-VN')),
+            datasets: [{
+              label: 'Lượt tải mỗi ngày',
+              data: values,
+              borderColor: '#a855f7',
+              backgroundColor: 'rgba(168, 85, 247, 0.15)',
+              borderWidth: 3,
+              pointBackgroundColor: '#a855f7',
+              pointRadius: 6,
+              pointHoverRadius: 8,
+              tension: 0.4,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#ddd', font: { size: 14 } } }
+            },
+            scales: {
+              x: { ticks: { color: '#bbb' }, grid: { color: '#333' } },
+              y: { ticks: { color: '#bbb' }, grid: { color: '#333' }, beginAtZero: true }
+            }
+          }
+        });
+
+        // Bảng lượt tải theo phiên bản
+        const statsDiv = document.getElementById('version-stats');
+        if (Object.keys(data.versions).length === 0) {
+          statsDiv.innerHTML = '<div class="empty-state">Chưa có dữ liệu lượt tải theo phiên bản.</div>';
+        } else {
+          const sorted = Object.entries(data.versions)
+            .sort((a, b) => b[1] - a[1]);
+
+          statsDiv.innerHTML = `
+            <table>
+              <thead>
+                <tr><th>Phiên bản</th><th>Lượt tải</th></tr>
+              </thead>
+              <tbody>
+                ${sorted.map(([v, c]) => `
+                  <tr>
+                    <td><strong style="color:#a855f7;">${v}</strong></td>
+                    <td><strong style="color:#fff;">${c.toLocaleString('vi-VN')}</strong></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById('version-stats').innerHTML = '<div class="empty-state" style="color:#ff6b6b;">Lỗi tải dữ liệu thống kê</div>';
+      }
+    }
+
+    async function loadVirusTotal() {
+      try {
+        const res = await fetch('/api/virustotal');
+        const links = await res.json();
+        const list = document.getElementById('vt-list');
+
+        if (links.length === 0) {
+          list.innerHTML = '<div class="empty-state">Chưa có link VirusTotal nào được thêm.</div>';
+          return;
+        }
+
+        list.innerHTML = links.map(link => `
+          <div class="vt-item">
+            <div class="vt-info">
+              <strong>${link.version}</strong>
+              <br>
+              <a href="${link.url}" target="_blank" rel="noopener">${link.url}</a>
+              <br>
+              <small style="color:#888;">Thêm lúc: ${new Date(link.createdAt).toLocaleString('vi-VN')}</small>
+            </div>
+            <button class="btn-delete" onclick="deleteVT(${link.id})">
+              <i class="fas fa-trash"></i> Xóa
+            </button>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error(err);
+        document.getElementById('vt-list').innerHTML = '<div class="empty-state" style="color:#ff6b6b;">Lỗi tải danh sách VirusTotal</div>';
+      }
+    }
+
+    async function addVirusTotal() {
+      const version = document.getElementById('vt-version').value.trim();
+      const url = document.getElementById('vt-url').value.trim();
+
+      if (!version || !url) {
+        alert('Vui lòng nhập đầy đủ phiên bản và link VirusTotal!');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/virustotal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ version, url })
+        });
+
+        if (res.ok) {
+          document.getElementById('vt-version').value = '';
+          document.getElementById('vt-url').value = '';
+          loadVirusTotal();
+          alert('Đã thêm link VirusTotal thành công!');
+        } else {
+          alert('Lỗi khi thêm link');
+        }
+      } catch (err) {
+        alert('Lỗi kết nối server');
+      }
+    }
+
+    async function deleteVT(id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa link VirusTotal này?')) return;
+
+      try {
+        const res = await fetch(`/api/admin/virustotal/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (res.ok) {
+          loadVirusTotal();
+          alert('Đã xóa thành công!');
+        } else {
+          alert('Lỗi khi xóa');
+        }
+      } catch (err) {
+        alert('Lỗi kết nối server');
+      }
+    }
+
+    // Load dữ liệu khi mở trang
+    loadStats();
+    loadVirusTotal();
+  </script>
+</body>
+</html>

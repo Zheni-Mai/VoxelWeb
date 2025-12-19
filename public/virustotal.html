@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>VirusTotal Scan - Voxel Launcher</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+            <img src="Assets/Logos/serve_logor.png" alt="Voxel Launcher Logo" class="logo-img">
+            <h1 class="logo-text">Voxel Launcher</h1>
+            </div>
+            <button class="hamburger" aria-label="Mở menu">
+            <span></span>
+            <span></span>
+            <span></span>
+            </button>
+            <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="#download" class="nav-link">Download</a></li>
+            <li><a href="virustotal.html" class="nav-link">Virustotal</a></li>
+            <li><a href="versions.html" class="nav-link">Version</a></li>
+            <li><a href="#wiki" class="nav-link">Wiki</a></li>
+            <li><a href="#issues" class="nav-link">Issues</a></li>
+            </ul>
+        </div>
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+            <div class="logo-container">
+                <img src="Assets/Logos/serve_logor.png" alt="Voxel Launcher Logo" class="logo-img">
+                <h3 class="logo-text">Voxel Launcher</h3>
+            </div>
+            <button class="close-btn" aria-label="Đóng menu">×</button>
+            </div>
+            <ul class="mobile-nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="#download" class="nav-link">Download</a></li>
+            <li><a href="virustotal.html" class="nav-link">Virustotal</a></li>
+            <li><a href="versions.html" class="nav-link">Version</a></li>
+            <li><a href="#wiki" class="nav-link">Wiki</a></li>
+            <li><a href="#issues" class="nav-link">Issues</a></li>
+            </ul>
+        </div>
+    </nav>
+  <section class="container" style="padding: 4rem 1.5rem;">
+    <h1 class="section-title">Kết quả quét VirusTotal</h1>
+    <p style="text-align:center; color:#aaa; margin-bottom: 3rem;">
+      Tất cả file tải xuống đều được quét bởi VirusTotal để đảm bảo an toàn.
+    </p>
+
+    <div id="vt-list"></div>
+  </section>
+
+  <script>
+    fetch('/api/virustotal')
+      .then(r => r.json())
+      .then(links => {
+        const container = document.getElementById('vt-list');
+        if (links.length === 0) {
+          container.innerHTML = '<p style="text-align:center; color:#aaa;">Chưa có link VirusTotal nào.</p>';
+          return;
+        }
+        container.innerHTML = links.map(link => `
+          <div style="background:var(--bg-card); padding:2rem; border-radius:16px; margin-bottom:1.5rem; border:1px solid var(--border);">
+            <h3>Phiên bản: ${link.version}</h3>
+            <p>Ngày quét: ${new Date(link.date).toLocaleDateString('vi-VN')}</p>
+            <a href="${link.url}" target="_blank" style="color:var(--primary-purple); font-size:1.1rem;">
+              Xem kết quả VirusTotal →
+            </a>
+          </div>
+        `).join('');
+      });
+  </script>
+</body>
+</html>

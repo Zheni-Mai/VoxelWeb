@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voxel Launcher</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+            <img src="Assets/Logos/serve_logor.png" alt="Voxel Launcher Logo" class="logo-img">
+            <h1 class="logo-text">Voxel Launcher</h1>
+            </div>
+            <button class="hamburger" aria-label="Mở menu">
+            <span></span>
+            <span></span>
+            <span></span>
+            </button>
+            <ul class="nav-menu">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#download" class="nav-link">Download</a></li>
+            <li><a href="virustotal.html" class="nav-link">Virustotal</a></li>
+            <li><a href="versions.html" class="nav-link">Version</a></li>
+            <li><a href="#wiki" class="nav-link">Wiki</a></li>
+            <li><a href="#issues" class="nav-link">Issues</a></li>
+            </ul>
+        </div>
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+            <div class="logo-container">
+                <img src="Assets/Logos/serve_logor.png" alt="Voxel Launcher Logo" class="logo-img">
+                <h3 class="logo-text">Voxel Launcher</h3>
+            </div>
+            <button class="close-btn" aria-label="Đóng menu">×</button>
+            </div>
+            <ul class="mobile-nav-links">
+            <li><a href="#home" class="nav-link">Home</a></li>
+            <li><a href="#download" class="nav-link">Download</a></li>
+            <li><a href="virustotal.html" class="nav-link">Virustotal</a></li>
+            <li><a href="versions.html" class="nav-link">Version</a></li>
+            <li><a href="#wiki" class="nav-link">Wiki</a></li>
+            <li><a href="#issues" class="nav-link">Issues</a></li>
+            </ul>
+        </div>
+    </nav>
+  <section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="fade-in">Voxel Launcher</h1>
+      <p class="fade-in">Thế giới của bạn trong tầm tay</p>
+      <a href="#download" class="btn-primary fade-in">Tải ngay</a>
+    </div>
+  </section>
+<section class="reviews-section">
+  <div class="container">
+    <h2 class="section-title fade-in">Giới thiệu Voxel Launcher</h2>
+    <div class="typewriter-container fade-in">
+      <p class="typewriter-text" data-text="VoxelLauncher là launcher Minecraft Java Edition được xây dựng bởi người việt, hỗ trợ đầy đủ các tính năng Minecraft chính thức. VoxelLauncher là launcher miễn phí, giúp bạn chơi Minecraft Java Edition một cách dễ dàng.">
+      </p>
+      <span class="cursor">|</span>
+    </div>
+  </div>
+</section>
+  <section class="image-slider-section">
+    <div class="container">
+        <h2 class="section-title fade-in" >Hình ảnh phần mềm</h2>
+      <div class="image-slider fade-in">
+        <div class="slide fade">
+          <img src="Assets/bg/1.png" alt="Feature 1">
+        </div>
+        <div class="slide fade">
+          <img src="Assets/bg/2.png" alt="Feature 2">
+        </div>
+        <div class="slide fade">
+          <img src="Assets/bg/3.png" alt="Feature 3">
+        </div>
+        <div class="dots">
+          <span class="dot" onclick="currentSlide(0)"></span>
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="reviews-section">
+    <div class="container">
+      <h2 class="section-title fade-in">Đánh giá từ người dùng</h2>
+      <div class="reviews-container">
+        <div class="review-card fade-in">
+          <div class="stars">★★★★★</div>
+          <p>"Phần mềm tuyệt vời, giao diện đẹp, chạy mượt mà!"</p>
+          <small>— Nguyễn Hoàng Minh</small>
+        </div>
+        <div class="review-card fade-in">
+          <div class="stars">★★★★☆</div>
+          <p>"Client cũng tạm ổn, nói chung là được"</p>
+          <small>— Lục Hoà</small>
+        </div>
+        <div class="review-card fade-in">
+          <div class="stars">★★★★★</div>
+          <p>"Cũng hay hay thôi cứ đánh giá 5 sao :V"</p>
+          <small>— Trần Thanh Bảo</small>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="download" class="download-section">
+    <div class="container">
+      <h2 class="section-title fade-in">Tải xuống ngay</h2>
+      <div class="download-buttons fade-in">
+        <a href="#" class="btn-download"
+            data-redirect="redirect.html">
+            Windows (.exe)
+            <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: #aaa;">Hỗ trợ Windows 10/11</p>
+        </a>
+      </div>
+      <div class="download-buttons fade-in">
+        <a href="versions.html" class="btn-download"> 
+          <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: #aaa;">Xem thêm các phiên bản khác</p>
+        </a>
+      </div>
+      <div class="download-buttons fade-in">
+        <a href="https://join.foxstudio.site" class="btn-download">
+          <i class="fab fa-discord"></i>
+            Discord
+            <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: #aaa;">Gia nhập cộng đồng của VoxelLauncher</p>
+        </a>
+      </div>
+      <div class="download-counter">
+        <i class="fas fa-download"></i>
+        <span id="download-count">Đang tải...</span> lượt tải xuống
+      </div>
+    </div>
+  </section>
+  <section id="wiki" class="info-section">
+    <div class="container">
+      <h2 class="section-title fade-in">Tài liệu & Hỗ trợ</h2>
+      <div class="info-cards">
+        <a href="https://github.com/Zheni-Mai/VoxelX/wiki" class="info-card fade-in">
+          <h3>Wiki</h3>
+          <p>Hướng dẫn sử dụng chi tiết</p>
+        </a>
+        <a href="https://github.com/Zheni-Mai/VoxelX/issues" class="info-card fade-in" id="issues">
+          <h3>Issues</h3>
+          <p>Báo lỗi & đề xuất tính năng</p>
+        </a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <h3 class="logo">Voxel Launcher</h3>
+        <p>© 2025 Voxel Launcher. Tất cả quyền được bảo lưu.</p>
+        <p>Gmail: <a href="mailto:hotro247.a@gmail.com">hotro247.a@gmail.com</a></p>
+        <p>Địa chỉ: Tòa nhà FCC Thái Nguyên,64 Đường Hoàng Văn Thụ, Hàng Văn Thụ, Thành phố Thái Nguyên, Thái Nguyên, Việt Nam</p>
+      </div>
+      <div class="footer-links">
+        <h4>Liên kết</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#download">Download</a></li>
+          <li><a href="versions.html" class="nav-link">Version</a></li>
+          <li><a href="https://github.com/Zheni-Mai/VoxelX/wiki">Wiki</a></li>
+          <li><a href="https://github.com/Zheni-Mai/VoxelX/issues">Issues</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h4>Liên hệ</h4>
+            <div class="social-icons">
+                <a href="https://github.com/Zheni-Mai/VoxelX/issues" target="_blank" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+                </a>
+                <a href="https://join.foxstudio.site" target="_blank" aria-label="Discord">
+                <i class="fab fa-discord"></i>
+                </a>
+                <a href="mailto:contact@voxellauncher.com" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+      </div>
+    </div>
+   
+  </footer>
+    <div id="download-popup" class="download-popup">
+        <div class="popup-content">
+            <h3>Chuẩn bị tải xuống...</h3>
+            <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <p id="countdown">10</p>
+            <p>Vui lòng chờ cho đến khi quá trình tải xuống hoàn tất</p>
+            <button class="btn-confirm" id="btn-confirm"></button>
+        </div>
+    </div>
+  <script src="script.js"></script>
+</body>
+</html>

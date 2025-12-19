@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đang tải Voxel Launcher...</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem;
+    }
+    .loader {
+      width: 80px;
+      height: 80px;
+      border: 8px solid #333;
+      border-top: 8px solid #a855f7;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 2rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin: 0.5rem 0;
+    }
+    #version { color: #a855f7; font-weight: bold; }
+    .success { color: #4ade80; }
+    .error { color: #ff6b6b; }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="loader"></div>
+    <h2>Đang chuẩn bị tải xuống...</h2>
+    <p>Phiên bản: <span id="version">đang xác định...</span></p>
+    <p id="status">Đang lấy thông tin từ GitHub...</p>
+  </div>
+
+  <script>
+    const GITHUB_API = 'https://api.github.com/repos/Zheni-Mai/VoxelX/releases/latest';
+
+    async function startDownload() {
+      try {
+        const res = await fetch(GITHUB_API);
+        if (!res.ok) throw new Error('Không kết nối GitHub');
+
+        const release = await res.json();
+        const version = release.tag_name.replace(/^v/, ''); // bỏ "v" nếu có
+        const exeAsset = release.assets.find(a => 
+          a.name.toLowerCase().includes('.exe') || 
+          a.name.toLowerCase().includes('setup')
+        );
+
+        if (!exeAsset) throw new Error('Không tìm thấy file cài đặt');
+
+        document.getElementById('version').textContent = version;
+        document.getElementById('status').textContent = `Đang tải ${exeAsset.name}...`;
+
+        // Gửi lượt tải về server (để đếm theo phiên bản)
+        await fetch('/api/increment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ version })
+        });
+
+        // Bắt đầu tải
+        document.querySelector('.loader').style.borderTopColor = '#4ade80';
+        document.getElementById('status').innerHTML = `Đang tải xuống... <br><small>${exeAsset.name} (${(exeAsset.size / 1024 / 1024).toFixed(1)} MB)</small>`;
+
+        // Mở link tải
+        const link = document.createElement('a');
+        link.href = exeAsset.browser_download_url;
+        link.download = exeAsset.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Đếm ngược về trang chủ
+        let countdown = 6;
+        const countdownEl = document.createElement('p');
+        countdownEl.innerHTML = `Tự động quay về trang chủ sau <strong style="color:#a855f7">${countdown}</strong>s...`;
+        document.getElementById('status').appendChild(countdownEl);
+
+        const timer = setInterval(() => {
+          countdown--;
+          countdownEl.innerHTML = `Tự động quay về trang chủ sau <strong style="color:#a855f7">${countdown}</strong>s...`;
+          if (countdown <= 0) {
+            clearInterval(timer);
+            document.getElementById('status').innerHTML = '<span class="success">Hoàn tất! Đang quay về...</span>';
+            setTimeout(() => window.location.href = '/', 1000);
+          }
+        }, 1000);
+
+      } catch (err) {
+        console.error(err);
+        document.querySelector('.loader').style.borderTopColor = '#ff6b6b';
+        document.getElementById('version').textContent = 'Lỗi';
+        document.getElementById('status').innerHTML = `
+          <p class="error">Không thể tải xuống tự động</p>
+          <p> Vui lòng thử lại hoặc <a href="versions.html" style="color:#a855f7;">xem tất cả phiên bản</a></p>
+        `;
+      }
+    }
+
+    startDownload();
+  </script>
+</body>
+</html>
